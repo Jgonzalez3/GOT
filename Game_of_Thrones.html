@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Game of Thrones Houses</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('img').click(function(){
+                var housenum = $(this).attr("id");
+                console.log(housenum);
+                $.get("https://www.anapioficeandfire.com/api/houses/"+housenum+"", function(res){
+                    console.log(res.name);
+                    console.log(res);
+                    var housename = res.name, housewords = res.words, housetitles = "";
+                    for(var housetitle in res.titles){
+                        housetitles += res.titles[housetitle];
+                        console.log(housetitle);
+                        if(housetitle == res.titles.length-1){
+                            break;
+                        }
+                        else housetitles += ", ";
+                    }
+                    console.log(res.titles.length);
+                    console.log(housetitles);
+                    $("article").html("<div class='housecard'><span>House Details</span><h5>Name: "+housename+"</h5><h5>Words: "+housewords+"</h5><h5 class='titles'>Titles: "+housetitles+"</h5></div>");
+                },"json")
+                return false;
+            })
+        })
+    </script>
+</head>
+<style>
+    .wrapper{
+        width: 1050px;
+        margin: 0 auto;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    header{
+        width: 95%;
+        margin: 0 auto;
+        text-align: center;
+    }
+    article{
+        margin: 0 auto;
+    }
+    img{
+        width: 220px;
+        height: 200px;
+        margin: 10px;
+    }
+    article{
+        width: 500px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+    .housecard{
+        border: solid black 2px;
+        padding: 20px;
+    }
+    .titles{
+        margin-top: 50px;
+    }
+    span{
+        background-color: white;
+        position: relative;
+        bottom: 32px;
+        border: solid white 2px;
+    }
+    h5{
+        margin: 0 0 20px 0;
+    }
+</style>
+<body>
+    <div class="wrapper">
+        <header>
+            <img id="362" src="stark.jpg" alt="house stark pic">
+            <img id="378" src="targaryen.jpg" alt="house targaryen pic">
+            <img id="229" src="lannister.jpg" alt="house lannister pic">
+            <img id="17" src="baratheon.png" alt="house baratheon pic">
+        </header>
+        <article></article>
+    </div>
+</body>
+</html>
